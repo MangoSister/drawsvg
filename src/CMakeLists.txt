@@ -86,6 +86,8 @@ set(CMU462_DRAWSVG_SOURCE
     software_renderer.cpp
     drawsvg.cpp
     main.cpp
+    mlaa.cpp
+    helper.cpp
 )
 
 # Set drawsvg header
@@ -98,6 +100,8 @@ set(CMU462_DRAWSVG_HEADER
     hardware_renderer.h
     software_renderer.h
     drawsvg.h
+    mlaa.hpp
+    helper.h
 )
 
 # Import hardware renderer

@@ -12,6 +12,7 @@
 #include "helper.h"
 //#include <tiffio.h>
 #include <string.h>
+#include <algorithm>
 
 namespace CMU462
 {

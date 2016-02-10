@@ -1,0 +1,24 @@
+15662 Computer Graphics Assignment 1
+Yang Zhou
+yzhou4@andrew.cmu.edu
+Feb. 10, 2016
+
+Extra credit features:
+1. Task 1: Wu's antialiasing line rendering algorithm
+2. Task 3: MLAA. The implementation is based on "Practical Morphological Anti-
+Aliasing" (Jimenez, Jorge, et al.). Although initially I intended to implement
+it on GPU, it turned out that the structure of given code does not really
+support programmable pipeline and shaders. Therefore, I end up implementing a
+CPU version to simulate the original one. See src/mlaa.cpp and src/mlaa.hpp for
+details. When running the application, use keyboard "," key to toggle MLAA.
+
+Other comments:
+1. In task 2, the computation of my implementation is only related to the area
+of triangle. I first calculate the leftmost and rightmost bound of the triangle,
+then for each row I perform sweep-line traversal. (Unfortunately there are some
+new and delete in the function which is not the most efficient way, but the
+amount of heap allocated storage is fairly small).
+
+[COMPILE NOTIFICATION!!!!!!!!]
+2. There are several new source files besides the given ones. I have modified
+CMake files in order to compile them.

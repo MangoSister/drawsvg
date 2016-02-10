@@ -136,6 +136,10 @@ Color Sampler2DImp::sample_bilinear(Texture& tex,
     return Color(1.0f,0.0f,1.0f,1.0f);
 
   MipLevel& currLevel = tex.mipmap[level];
+	while(u < 0.0f) u++;
+	while(v < 0.0) v++;
+	while(u > 1.0f) u--;
+	while(v > 1.0f) v--;
   u *= (float)currLevel.width;
   v *= (float)currLevel.height;
   int x_left = (floor_to_int(u - 0.5f)) % currLevel.width;
@@ -144,9 +148,9 @@ Color Sampler2DImp::sample_bilinear(Texture& tex,
   int y_down = (y_up + 1) % currLevel.height;
 
   int idx_00 = 4 * (x_left + y_up * currLevel.width);
-  int idx_10 = idx_00 + 4;
-  int idx_01 = idx_00 + 4 * currLevel.width;
-  int idx_11 = idx_00 + 4 + 4 * currLevel.width;
+  int idx_10 = 4 * (x_right + y_up * currLevel.width);
+  int idx_01 = 4 * (x_left + y_down * currLevel.width);
+  int idx_11 = 4 * (x_right + y_down * currLevel.width);
 
   Color c00{ currLevel.texels[idx_00],
       currLevel.texels[idx_00 + 1],

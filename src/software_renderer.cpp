@@ -511,8 +511,8 @@ void SoftwareRendererImp::rasterize_image( float x0, float y0,
 				for(float y = y_start; y <= y_end; y += 1.0f)
 				{
 					
-					Color c = sampler->sample_trilinear(tex, (x - x0) / img_width,
-																										(y - y0) / img_height,
+					Color c = sampler->sample_trilinear(tex, (x - x_min) / img_width,
+																										(y - y_min) / img_height,
 																										(float)tex.width / img_width,
 																										(float)tex.height / img_height);
 					draw_pixel(floor_to_int(x), floor_to_int(y), c);
@@ -526,8 +526,8 @@ void SoftwareRendererImp::rasterize_image( float x0, float y0,
 			{
 				for(float y = y_start; y <= y_end; y += 1.0f)
 				{
-					Color c = sampler->sample_bilinear(tex, (x - x0) / img_width,
-																						 (y - y0) / img_height );
+					Color c = sampler->sample_bilinear(tex, (x - x_min) / img_width,
+																						 (y - y_min) / img_height );
 					draw_pixel(floor_to_int(x), floor_to_int(y), c);
 				}
 			}

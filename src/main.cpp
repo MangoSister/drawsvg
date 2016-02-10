@@ -4,6 +4,9 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <iostream>
+#include "helper.h"
+#include "mlaa.hpp"
+
 
 using namespace std;
 using namespace CMU462;
@@ -88,7 +91,6 @@ int loadPath( DrawSVG* drawsvg, const char* path) {
 }
 
 int main( int argc, char** argv ) {
-
   // create viewer
   Viewer viewer = Viewer();
 

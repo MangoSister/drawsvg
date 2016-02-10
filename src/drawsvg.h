@@ -35,10 +35,10 @@ class DrawSVG : public Renderer {
    */
   DrawSVG() : 
     method (Software),
-    sample_rate (1),
     current_tab (0),
     show_diff (false),
     show_zoom (false),
+		sample_rate (1),
     norm_to_screen ( Matrix3x3::identity() )  { }
 
   /**
@@ -154,6 +154,8 @@ class DrawSVG : public Renderer {
   bool show_zoom;
   void draw_zoom();
 
+	/* MLAA */
+	void toggle_mlaa();
   /* samples rate (sqrt(s/pix)) */
   size_t sample_rate;
   void inc_sample_rate();

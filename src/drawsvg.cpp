@@ -135,7 +135,10 @@ void DrawSVG::key_event( char key ) {
       auto_adjust(current_tab);
       redraw();
       break;
-
+		// MLAA controls
+		case ',':
+			toggle_mlaa();
+			break;
     // SSAA controls
     case '=':
       inc_sample_rate();
@@ -394,7 +397,16 @@ void DrawSVG::draw_zoom() {
 
 }
 
-
+void DrawSVG::toggle_mlaa()
+	{
+		if(method == Software && software_renderer == software_renderer_imp)
+		{
+			((SoftwareRendererImp*)software_renderer_imp)->set_is_MLAA_on
+			(!((SoftwareRendererImp*)software_renderer_imp)->get_is_MLAA_on());
+			redraw();
+		}
+	}
+	
 void DrawSVG::inc_sample_rate() {
   if (method == Software) {
     sample_rate += sample_rate < 4 ? 1 : 0;
@@ -482,6 +494,7 @@ void DrawSVG::display_pixels( const unsigned char* pixels ) const {
 
   glRasterPos2f(0, 0);
   glPixelZoom( 1.0, -1.0 );
+	glClearColor(0, 0, 0, 1);
   glDrawPixels( width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels );
   glPixelZoom( 1.0, 1.0 );
 

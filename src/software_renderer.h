@@ -7,6 +7,7 @@
 #include "CMU462.h"
 #include "texture.h"
 #include "svg_renderer.h"
+#include "mlaa.hpp"
 
 namespace CMU462 { // CMU462
 
@@ -66,8 +67,10 @@ class SoftwareRenderer : public SVGRenderer {
 class SoftwareRendererImp : public SoftwareRenderer {
  public:
 
-  SoftwareRendererImp( ) : SoftwareRenderer( ) { }
 
+  SoftwareRendererImp();
+
+  virtual ~SoftwareRendererImp();
   // draw an svg input to render target
   void draw_svg( SVG& svg );
 
@@ -77,6 +80,9 @@ class SoftwareRendererImp : public SoftwareRenderer {
   // set render target
   void set_render_target( unsigned char* target_buffer,
                           size_t width, size_t height );
+	
+	inline bool get_is_MLAA_on() const { return is_MLAA_on; }
+	inline void set_is_MLAA_on(bool on) { is_MLAA_on = on; }
 
  private:
 
@@ -132,6 +138,35 @@ class SoftwareRendererImp : public SoftwareRenderer {
 
   // resolve samples to render target
   void resolve( void );
+	
+	//draw pixel utility function
+	inline void draw_pixel(int ix, int iy, const Color& color)
+	{
+		if ( ix < 0 || ix >= target_w || iy < 0 || iy >= target_h ) return;
+		
+		int idx = 4 * (ix + iy * target_w);
+		
+		Color target_color(render_target[idx],
+												render_target[idx + 1],
+												render_target[idx + 2],
+												render_target[idx + 3]);
+		
+		float out_a = (1.0f - color.a) * target_color.a + color.a;
+		float inv_out_a = 1.0f / out_a;
+		target_color.r = ((1.0f - color.a) * target_color.r * target_color.a + color.a * color.r) * inv_out_a;
+		target_color.g = ((1.0f - color.a) * target_color.g * target_color.a + color.a * color.g) * inv_out_a;
+		target_color.b = ((1.0f - color.a) * target_color.b * target_color.a + color.a * color.b) * inv_out_a;
+		target_color.a = out_a;
+
+		render_target[idx] = (uint8_t) (target_color.r * 255.0f);
+		render_target[idx + 1] = (uint8_t) (target_color.g * 255.0f);
+		render_target[idx + 2] = (uint8_t) (target_color.b * 255.0f);
+		render_target[idx + 3] = (uint8_t) (target_color.a * 255.0f);
+	}
+	
+	//MLAA (CPU version... sad)
+	bool is_MLAA_on;
+	mlaa_wrapper* mlaa;
 
 }; // class SoftwareRendererImp
 
